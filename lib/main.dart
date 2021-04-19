@@ -11,9 +11,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Startup Name Generator",
-        home: RandomWords());
+    return MaterialApp(title: "Startup Name Generator", home: RandomWords());
   }
 }
 
@@ -22,22 +20,28 @@ class RandomWords extends StatefulWidget {
   _RandomWordsState createState() => _RandomWordsState();
 }
 
-
 class _RandomWordsState extends State<RandomWords> {
   @override
   Widget build(BuildContext context) {
     final _suggestions = <WordPair>[];
+    final _saved = <WordPair>{};
     final _biggerFont = TextStyle(fontSize: 18.0);
 
     Widget _buildRow(WordPair pair) {
+      final alreadySaved = _saved.contains(pair);
+
       return ListTile(
         title: Text(
           pair.asPascalCase,
           style: _biggerFont,
         ),
+        trailing: Icon(
+          //add icone
+          alreadySaved ? Icons.favorite : Icons.favorite_border,
+          color: alreadySaved ? Colors.red : null,
+        ),
       );
     }
-
 
     Widget _buildSuggestions() {
       return ListView.builder(
@@ -53,7 +57,6 @@ class _RandomWordsState extends State<RandomWords> {
             return _buildRow(_suggestions[index]);
           });
     }
-
 
     return Scaffold(
       appBar: AppBar(
